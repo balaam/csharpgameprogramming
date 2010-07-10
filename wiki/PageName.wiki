@@ -5,6 +5,8 @@
 This repository is for the code accompanying the book 
 [http://www.amazon.com/dp/1435455568/ref=nosim?tag=dansspiels-21 C# Game Programming: For Serious Game Creation]
 
+OpenGL and C# are used to build a fast hardware accelerated 2D engine with an example scrolling shooter game. 
+
 
 = Details =
 
@@ -23,3 +25,7 @@ To run the code:
     * SDL.dll
 
 Once this done you should be ready to develop!
+
+= How you can help =
+
+If you think you've got something cool to add let me know. It would be nice to get rid of the shoddy programmer art :D
