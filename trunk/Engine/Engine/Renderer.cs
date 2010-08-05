@@ -65,5 +65,18 @@ namespace Engine
                 Gl.glEnable(Gl.GL_TEXTURE_2D);*/
             }
         }
+
+        /// <summary>
+        /// This is a slow but often convient function.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        public void DrawText(double x, double y, string text, Font font)
+        {
+            Text textObj = new Text(text, font);
+            textObj.SetColor(new Color(0,0,0,1));
+            textObj.SetPosition(x, y);
+            DrawText(textObj);
+        }
     }
 }

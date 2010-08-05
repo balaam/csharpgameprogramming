@@ -95,6 +95,32 @@ namespace Engine
             return -distance * (Math.Sqrt(1 - (timePassed /= duration) * timePassed) - 1) + start;
         }
 
+        public static double BounceEaseOut(double timePassed, double start, double distance, double duration)
+        {
+            if ((timePassed /= duration) < (1 / 2.75))
+                return distance * (7.5625 * timePassed * timePassed) + start;
+            else if (timePassed < (2 / 2.75))
+                return distance * (7.5625 * (timePassed -= (1.5 / 2.75)) * timePassed + .75) + start;
+            else if (timePassed < (2.5 / 2.75))
+                return distance * (7.5625 * (timePassed -= (2.25 / 2.75)) * timePassed + .9375) + start;
+            else
+                return distance * (7.5625 * (timePassed -= (2.625 / 2.75)) * timePassed + .984375) + start;
+        }
+
+        public static double BounceEaseIn(double timePassed, double start, double distance, double duration)
+        {
+            return distance - BounceEaseOut(duration - timePassed, 0, distance, duration) + start;
+        }
+
+        public static double BounceEaseInOut(double timePassed, double start, double distance, double duration)
+        {
+            if (timePassed < duration / 2)
+                return BounceEaseIn(timePassed * 2, 0, distance, duration) * .5 + start;
+            else
+                return BounceEaseOut(timePassed * 2 - duration, 0, distance, duration) * .5 + distance * .5 + start;
+        }
+
+
     }
 
 }

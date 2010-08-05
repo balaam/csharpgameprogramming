@@ -7,6 +7,7 @@ namespace Engine
 {
     public interface IGameObject
     {
+        void Activated();
         void Update(double elapsedTime);
         void Render();
     }
