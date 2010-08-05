@@ -70,6 +70,10 @@ namespace Shooter
             _renderer.Render();
         }
 
+        public void Activated()
+        {
+        }
+
         #endregion
     }
 
