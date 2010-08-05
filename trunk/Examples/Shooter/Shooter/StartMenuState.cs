@@ -68,6 +68,10 @@ namespace Shooter
             _menu.Render(_renderer);
             _renderer.Render();
         }
+
+        public void Activated()
+        {
+        }
     }
 
 }
