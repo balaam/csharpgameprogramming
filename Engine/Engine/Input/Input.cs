@@ -25,14 +25,33 @@ namespace Engine.Input
 
         public void Update(double elapsedTime)
         {
+            StandardUpdate();
+            Mouse.Update(elapsedTime);
+        }
+
+        public void Update(double elapsedTime, double width, double height)
+        {
+            StandardUpdate();
+            Mouse.Update(elapsedTime, Vector.Zero, width, height);
+        }
+
+        public void Update(double elapsedTime, Vector origin, double width, double height)
+        {
+            StandardUpdate();
+            Mouse.Update(elapsedTime, origin, width, height);
+        }
+
+        private void StandardUpdate()
+        {
             if (_usingController)
             {
                 Sdl.SDL_JoystickUpdate();
                 Controller.Update();
             }
-            Mouse.Update(elapsedTime);
             Keyboard.Process();
         }
 
+
+  
     }
 }

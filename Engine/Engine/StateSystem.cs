@@ -37,6 +37,7 @@ namespace Engine
         {
             System.Diagnostics.Debug.Assert(Exists(stateId));
             _currentState = _stateStore[stateId];
+            _currentState.Activated();
         }
 
         /// <summary>

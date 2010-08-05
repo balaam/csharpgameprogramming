@@ -100,6 +100,7 @@
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="KernKey.cs" />
+    <Compile Include="Lerp.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="PreciseTimer.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Spline.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="StateSystem.cs" />
+    <Compile Include="Test_Lerp.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="TextureManager.cs" />
