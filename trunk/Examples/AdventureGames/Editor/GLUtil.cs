@@ -38,6 +38,20 @@ namespace Editor
             Gl.glEnd();
         }
 
+        internal static void RenderPolygonFilled(Engine.PathFinding.ConvexPolygon polygon)
+        {
+            Gl.glBegin(Gl.GL_POLYGON);
+            {
+                foreach (Point p in polygon.Vertices)
+                {
+                    GLUtil.DrawPointVertex(p);
+                }
+                GLUtil.DrawPointVertex(polygon.Vertices.First());
+            }
+            Gl.glEnd();
+        }
+
+
         public static void DrawCircle(Circle circle, Color color)
         {
 
@@ -88,5 +102,6 @@ namespace Editor
             }
             Gl.glEnd();
         }
+
     }
 }

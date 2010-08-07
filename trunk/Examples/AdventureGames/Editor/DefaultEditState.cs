@@ -97,11 +97,13 @@ namespace Editor
             {
                 if (i == _selectedVertexIndex)
                 {
-                    GLUtil.DrawCircle(_selectedPolygon.Vertices[i], 15, new Color(1, 1, 0, 1));
+                    GLUtil.DrawFilledCircle(_selectedPolygon.Vertices[i], VertexEditRadius - 1, new Color(1, 1, 0, 1));
+                    GLUtil.DrawCircle(_selectedPolygon.Vertices[i], VertexEditRadius, new Color(0, 0, 0, 1));
                 }
                 else
                 {
-                    GLUtil.DrawCircle(_selectedPolygon.Vertices[i], 15, new Color(0, 0, 0, 1));
+                    GLUtil.DrawFilledCircle(_selectedPolygon.Vertices[i], VertexEditRadius - 1, new Color(1, 1, 1, 1));
+                    GLUtil.DrawCircle(_selectedPolygon.Vertices[i], VertexEditRadius, new Color(0, 0, 0, 1));
                 }
             }
         }

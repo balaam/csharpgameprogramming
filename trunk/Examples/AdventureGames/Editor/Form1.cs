@@ -15,6 +15,7 @@ namespace Editor
 {
     public partial class Form1 : Form
     {
+        public const double Version = 0.1;
         bool _fullscreen = false;
         FastLoop _fastLoop;
         StateSystem _system = new StateSystem();
@@ -39,6 +40,9 @@ namespace Editor
             }
         }
 
+        Scene _scene;
+        Layers _layers;
+
         public Form1()
         {
             InitializeComponent();
@@ -46,6 +50,7 @@ namespace Editor
 
             _input.Mouse = new Mouse(this, _openGLControl);
             _input.Keyboard = new Keyboard(_openGLControl);
+            _scene = new Scene();
 
             InitializeDisplay();
            // InitializeSounds();
@@ -54,13 +59,16 @@ namespace Editor
             InitializeGameState();
 
             
+            _layers = new Layers(_scene, _textureManager);
+            _layers.Show();
+            
 
             _fastLoop = new FastLoop(GameLoop);
         }
 
         private void InitializeGameState()
         {
-            _system.AddState("edit_walk_area", new EditWalkArea(_input, toolStrip1));
+            _system.AddState("edit_walk_area", new EditWalkArea(_input, toolStrip1, _scene));
             _system.ChangeState("edit_walk_area");
         }
 
@@ -78,7 +86,7 @@ namespace Editor
 
         private void UpdateInput(double elapsedTime)
         {
-            _input.Update(elapsedTime, _sceneTranslation, _width, _height);
+            _input.Update(elapsedTime, _sceneTranslation, _width * Zoom, _height * Zoom);
 
             if (_input.Mouse.MiddleHeld == true)
             {
@@ -86,6 +94,8 @@ namespace Editor
                 _sceneTranslation  += (moveDelta * SceneScrollSpeed);
                 Setup2DGraphics(_sceneTranslation, _width, _height);
             }
+
+            Zoom -= (double)_input.Mouse.Wheel * 0.001;
         }
 
         private void GameLoop(double elapsedTime)
@@ -136,13 +146,24 @@ namespace Editor
 
         private void Setup2DGraphics(Vector translate, double width, double height)
         {
-            double halfWidth = width / 2;
-            double halfHeight = height / 2;
+            double halfWidth = (width * Zoom) / 2;
+            double halfHeight = (height * Zoom) / 2;
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
             Gl.glOrtho(translate.X - halfWidth, translate.X + halfWidth, translate.Y - halfHeight, translate.Y + halfHeight, -100, 100);
             Gl.glMatrixMode(Gl.GL_MODELVIEW);
             Gl.glLoadIdentity();
+        }
+
+        private void OnSaveClicked(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (Version == 0.1)
+                {
+                    Persist.Persist01.Save(saveFileDialog1.FileName, _scene, _textureManager);
+                }
+            }
         }
 
     }
