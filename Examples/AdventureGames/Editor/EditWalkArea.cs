@@ -13,25 +13,25 @@ namespace Editor
     class EditWalkArea : IGameObject
     {
         Input       _input;
-        NavMesh     _navMesh = new NavMesh();
         ToolStrip   _toolStrip;
         StateSystem _editState = new StateSystem();
+        Scene       _scene;
 
-
-        public EditWalkArea(Input input, ToolStrip toolstrip)
+        public EditWalkArea(Input input, ToolStrip toolstrip, Scene scene)
         {
             _input = input;
             _toolStrip = toolstrip;
+            _scene = scene;
             InitEditStates();
             AddToolStripCallbacks();
         }
 
         private void InitEditStates()
         {
-            _editState.AddState("default", new DefaultEditState(_input, _navMesh));
-            _editState.AddState("add_vertex", new AddVertexState(_input, _navMesh));
-            _editState.AddState("add_link", new AddLinkState(_input, _navMesh));
-            _editState.AddState("add_polygon", new AddPolygonState(_input, _navMesh));
+            _editState.AddState("default", new DefaultEditState(_input, _scene.NavMesh));
+            _editState.AddState("add_vertex", new AddVertexState(_input, _scene.NavMesh));
+            _editState.AddState("add_link", new AddLinkState(_input, _scene.NavMesh));
+            _editState.AddState("add_polygon", new AddPolygonState(_input, _scene.NavMesh));
             _editState.ChangeState("default");
         }
 
@@ -93,20 +93,30 @@ namespace Editor
 
         public void Update(double elapsedTime)
         {
+            _scene.Update(elapsedTime);
             _editState.Update(elapsedTime);
         }
 
         public void Render()
         {
             GLUtil.Clear(new Color(0.5f, 0.5f, 0.5f, 0));
-            RenderNavMesh(_navMesh);
+            Gl.glEnable(Gl.GL_TEXTURE_2D);
+            {
+                _scene.Render();
+            }
+            Gl.glDisable(Gl.GL_TEXTURE_2D);
+            RenderNavMesh(_scene.NavMesh);
+            
             _editState.Render();
         }
 
         private void RenderNavMesh(NavMesh navMesh)
         {
+            GLUtil.SetColor(new Color(0f, 0f, 1.0f, 0.5f));
+            navMesh.PolygonList.ForEach(x => GLUtil.RenderPolygonFilled(x));            
             GLUtil.SetColor(new Color(0.5f, 0.1f, 0.1f, 1f));
             navMesh.PolygonList.ForEach(x => GLUtil.RenderPolygon(x));
+            
         }
 
     }
