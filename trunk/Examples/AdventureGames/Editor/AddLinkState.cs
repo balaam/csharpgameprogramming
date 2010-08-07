@@ -114,7 +114,7 @@ namespace Editor
         {
             if (_haveStartPoint)
             {
-                GLUtil.SetColor(new Color(0,0,1,1));
+                GLUtil.SetColor(new Color(0.8f, 0.3f, 0.8f, 1));
                 GLUtil.DrawLine2d(_startPoint, _input.Mouse.Position);
                 RenderIntersectEdges();
             }

@@ -37,6 +37,10 @@ namespace Engine.PathFinding
         public ConvexPolygon(Point position) : this(position, 100, 100) { }
 
         /// <summary>
+        /// Empty constructor no points or edges will be generated.
+        /// </summary>
+        public ConvexPolygon() { }
+        /// <summary>
         /// Create a rectangle convex polygon at <paramref name="position"/> <paramref name="width"/>xparamref name="height"/>
         /// </summary>
         /// <param name="position"></param>
@@ -57,7 +61,7 @@ namespace Engine.PathFinding
         /// <summary>
         /// Uses the vertex data to build edges between the vertices.
         /// </summary>
-        private void GenerateEdges()
+        public void GenerateEdges()
         {
             _indexedEdges.Clear();
             for (int i = 1; i < _vertices.Count; i++)
