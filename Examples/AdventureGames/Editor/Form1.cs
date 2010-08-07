@@ -166,5 +166,16 @@ namespace Editor
             }
         }
 
+        private void OnOpenClicked(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (Version == 0.1)
+                {
+                    Persist.Persist01.Open(openFileDialog1.FileName, _scene, _textureManager);
+                }
+            }
+        }
+
     }
 }
