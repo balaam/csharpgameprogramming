@@ -25,6 +25,8 @@ namespace Engine.Input
         public bool LeftHeld { get; private set; }
         public bool RightHeld { get; set; }
 
+        private bool WheelDeltaChanged { get; set; }
+        public int Wheel { get; set; }
         /// <summary>
         /// The direction and amount that the mouse pointe has been moved in one frame.
         /// </summary>
@@ -97,6 +99,12 @@ namespace Engine.Input
                 RightHeld = false;
                 MiddleHeld = false;
             };
+
+            _openGLControl.MouseWheel += delegate(object obj, MouseEventArgs e)
+            {
+                WheelDeltaChanged = true;
+                Wheel = e.Delta;
+            };
         }
 
         public void Update(double elapsedTime)
@@ -114,6 +122,19 @@ namespace Engine.Input
             _moveDelta.X = Position.X - _previousPosition.X;
             _moveDelta.Y = Position.Y - _previousPosition.Y;
             UpdateMouseButtons();
+            UpdateMouseWheel();
+        }
+
+        private void UpdateMouseWheel()
+        {
+            if (WheelDeltaChanged == true)
+            {
+                WheelDeltaChanged = false;
+            }
+            else
+            {
+                Wheel = 0;
+            }
         }
 
         private Point GetMousePosition(Vector origin, double width, double height)
