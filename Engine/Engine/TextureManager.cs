@@ -11,6 +11,11 @@ namespace Engine
     {
         Dictionary<string, Texture> _textureDatabase = new Dictionary<string, Texture>();
 
+        public Dictionary<string, Texture>.Enumerator GetEnumerator()
+        {
+            return _textureDatabase.GetEnumerator();
+        } 
+
         public Texture Get(string textureId)
         {
             return _textureDatabase[textureId];
@@ -47,7 +52,7 @@ namespace Engine
             System.Diagnostics.Debug.Assert(openGLId != 0);
             Il.ilDeleteImages(1, ref devilId);
 
-            _textureDatabase.Add(textureId, new Texture(openGLId, width, height));
+            _textureDatabase.Add(textureId, new Texture(openGLId, width, height, path));
         }
 
 
