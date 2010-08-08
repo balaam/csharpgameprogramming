@@ -140,7 +140,8 @@ namespace Editor.Persist
         }
         #endregion 
     
-        internal static void Open(string path, Scene scene, TextureManager textureManager)
+        #region Loading
+        internal static void Open(string path, Scene scene, TextureManager textureManager, Layers layers)
         {
             XmlTextReader xmlReader = new System.Xml.XmlTextReader(path);
             xmlReader.MoveToContent();  // Jumps into top level header
@@ -155,6 +156,7 @@ namespace Editor.Persist
                     LoadSceneData(xmlReader, scene, textureManager);
                 }
             }
+            layers.RefreshLayerContent(scene.Layers);
         }
 
         private static void LoadSceneData(XmlTextReader xmlReader, Scene scene, TextureManager textureManager)
@@ -363,5 +365,6 @@ namespace Editor.Persist
 
             }
         }
+        #endregion
     }
 }

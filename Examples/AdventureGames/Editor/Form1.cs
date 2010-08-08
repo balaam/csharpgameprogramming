@@ -16,6 +16,14 @@ namespace Editor
     public partial class Form1 : Form
     {
         public const double Version = 0.1;
+
+        // Once again change this into a state system if it get too complicated.
+        enum EditMode
+        {
+            WalkTest,
+            NavMeshEdit
+        }
+        EditMode _editMode = EditMode.NavMeshEdit;
         bool _fullscreen = false;
         FastLoop _fastLoop;
         StateSystem _system = new StateSystem();
@@ -47,6 +55,7 @@ namespace Editor
         {
             InitializeComponent();
             _openGLControl.InitializeContexts();
+            _openGLControl.SizeChanged += new EventHandler(OnOpenGLControlResized);
 
             _input.Mouse = new Mouse(this, _openGLControl);
             _input.Keyboard = new Keyboard(_openGLControl);
@@ -61,14 +70,19 @@ namespace Editor
             
             _layers = new Layers(_scene, _textureManager);
             _layers.Show();
+
+            _modeComboBox.SelectedIndex = 1;
             
 
             _fastLoop = new FastLoop(GameLoop);
         }
 
+   
+
         private void InitializeGameState()
         {
-            _system.AddState("edit_walk_area", new EditWalkArea(_input, toolStrip1, _scene));
+            _system.AddState("edit_walk_area", new EditWalkArea(_input, _toolStrip, _scene));
+            _system.AddState("test_walking", new TestWalkState(_input, _toolStrip, _scene));
             _system.ChangeState("edit_walk_area");
         }
 
@@ -120,13 +134,13 @@ namespace Editor
             Setup2DGraphics(_sceneTranslation, _width, _height);
         }
 
-        protected override void OnClientSizeChanged(EventArgs e)
+        void OnOpenGLControlResized(object sender, EventArgs e)
         {
-            base.OnClientSizeChanged(e);
-            Gl.glViewport(0, 0, this.ClientSize.Width, this.ClientSize.Height);
-            Setup2DGraphics(_sceneTranslation, ClientSize.Width, ClientSize.Height);
+            int width = _openGLControl.ClientSize.Width;
+            int height = _openGLControl.ClientSize.Height;
+            Gl.glViewport(0, 0, width, height);
+            Setup2DGraphics(_sceneTranslation, _width, _height);
         }
-
 
         protected override void OnResizeEnd(EventArgs e)
         {
@@ -143,6 +157,8 @@ namespace Editor
             base.OnResize(e);
             OnResizeEnd(e);
         }
+
+
 
         private void Setup2DGraphics(Vector translate, double width, double height)
         {
@@ -172,8 +188,49 @@ namespace Editor
             {
                 if (Version == 0.1)
                 {
-                    Persist.Persist01.Open(openFileDialog1.FileName, _scene, _textureManager);
+                    Persist.Persist01.Open(openFileDialog1.FileName, _scene, _textureManager, _layers);
                 }
+            }
+        }
+
+        private void OnModeChange(object sender, EventArgs e)
+        {
+            EditMode newMode = (EditMode)_modeComboBox.SelectedIndex;
+
+            if (newMode == _editMode)
+            {
+                return;
+            }
+
+            // Unload any options.
+            if (_editMode == EditMode.NavMeshEdit)
+            {
+                // We're going to replace the nav mesh, that means
+                // it's toolbar needs stripping down.
+                _toolStrip.Items.Remove(toolStripLabel1);
+                _toolStrip.Items.Remove(_defaultToolStripButton);
+                _toolStrip.Items.Remove(_addVertexToolStripButton);
+                _toolStrip.Items.Remove(_addPolygonToolStripButton);
+                _toolStrip.Items.Remove(_linkToolStripButton); 
+            }
+
+            _editMode = newMode;
+
+            // Load new options
+            if (newMode == EditMode.NavMeshEdit)
+            {
+                
+                _toolStrip.Items.Add(toolStripLabel1);
+                _toolStrip.Items.Add(_defaultToolStripButton);
+                _toolStrip.Items.Add(_addPolygonToolStripButton);
+                _toolStrip.Items.Add(_linkToolStripButton);
+                _toolStrip.Items.Add(_addVertexToolStripButton);
+                _system.ChangeState("edit_walk_area");
+              
+            }
+            else if (newMode == EditMode.WalkTest)
+            {
+                _system.ChangeState("test_walking");
             }
         }
 
