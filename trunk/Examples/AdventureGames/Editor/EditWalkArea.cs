@@ -42,7 +42,7 @@ namespace Editor
             // to add these buttons programmatically here but that makes them a little more bother 
             // to easily edit.
             _toolStrip.Items["_defaultToolStripButton"].Click += new EventHandler(OnClickDefaultMode);
-            _toolStrip.Items["_polygonAddToolStripButton"].Click += new EventHandler(OnClickPolygonAddMode);
+            _toolStrip.Items["_addPolygonToolStripButton"].Click += new EventHandler(OnClickPolygonAddMode);
             _toolStrip.Items["_linkToolStripButton"].Click += new EventHandler(OnClickLinkMode);
             _toolStrip.Items["_addVertexToolStripButton"].Click += new EventHandler(OnClickAddVertexMode);
         }
@@ -64,7 +64,7 @@ namespace Editor
         void OnClickPolygonAddMode(object sender, EventArgs e)
         {
             UncheckAllToolstripButtons();
-            ((ToolStripButton)_toolStrip.Items["_polygonAddToolStripButton"]).CheckState = CheckState.Checked;
+            ((ToolStripButton)_toolStrip.Items["_addPolygonToolStripButton"]).CheckState = CheckState.Checked;
             _editState.ChangeState("add_polygon");
         }
 
@@ -89,6 +89,8 @@ namespace Editor
 
         public void Activated()
         {
+
+
         }
 
         public void Update(double elapsedTime)

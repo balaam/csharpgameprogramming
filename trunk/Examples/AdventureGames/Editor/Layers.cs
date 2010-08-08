@@ -41,5 +41,16 @@ namespace Editor
                 _layerListView.Items.Add(listViewItem);
             }
         }
+
+        internal void RefreshLayerContent(List<Layer> layerList)
+        {
+            foreach (Layer layer in layerList)
+            {
+                ListViewItem listViewItem = new ListViewItem();
+                listViewItem.Text = "Layer " + _layerListView.Items.Count;
+                listViewItem.Name = "someuniqueid";
+                _layerListView.Items.Add(listViewItem);
+            }
+        }
     }
 }

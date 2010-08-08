@@ -42,14 +42,17 @@
             this._openGLControl = new Tao.Platform.Windows.SimpleOpenGlControl();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this._defaultToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this._polygonAddToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this._addPolygonToolStripButton = new System.Windows.Forms.ToolStripButton();
             this._linkToolStripButton = new System.Windows.Forms.ToolStripButton();
             this._addVertexToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this._toolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this._modeComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this._toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // BottomToolStripPanel
@@ -98,14 +101,14 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "&Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OnOpenClicked);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.OnSaveClicked);
             // 
@@ -165,15 +168,15 @@
             this._defaultToolStripButton.Size = new System.Drawing.Size(36, 36);
             this._defaultToolStripButton.Text = "Default Mode - allow vertices to be moved.";
             // 
-            // _polygonAddToolStripButton
+            // _addPolygonToolStripButton
             // 
-            this._polygonAddToolStripButton.CheckOnClick = true;
-            this._polygonAddToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._polygonAddToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("_polygonAddToolStripButton.Image")));
-            this._polygonAddToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this._polygonAddToolStripButton.Name = "_polygonAddToolStripButton";
-            this._polygonAddToolStripButton.Size = new System.Drawing.Size(36, 36);
-            this._polygonAddToolStripButton.Text = "Polygon Add Mode - add polygons by left clicking";
+            this._addPolygonToolStripButton.CheckOnClick = true;
+            this._addPolygonToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._addPolygonToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("_addPolygonToolStripButton.Image")));
+            this._addPolygonToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._addPolygonToolStripButton.Name = "_addPolygonToolStripButton";
+            this._addPolygonToolStripButton.Size = new System.Drawing.Size(36, 36);
+            this._addPolygonToolStripButton.Text = "Polygon Add Mode - add polygons by left clicking";
             // 
             // _linkToolStripButton
             // 
@@ -195,20 +198,46 @@
             this._addVertexToolStripButton.Size = new System.Drawing.Size(36, 36);
             this._addVertexToolStripButton.Text = "Add Vertex - click a vertex to the nearest edge, if allowable.";
             // 
-            // toolStrip1
+            // _toolStrip
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._toolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this._toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel2,
+            this._modeComboBox,
+            this.toolStripSeparator1,
             this.toolStripLabel1,
             this._defaultToolStripButton,
-            this._polygonAddToolStripButton,
+            this._addPolygonToolStripButton,
             this._linkToolStripButton,
             this._addVertexToolStripButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(628, 39);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
+            this._toolStrip.Location = new System.Drawing.Point(0, 24);
+            this._toolStrip.MaximumSize = new System.Drawing.Size(0, 39);
+            this._toolStrip.MinimumSize = new System.Drawing.Size(0, 39);
+            this._toolStrip.Name = "_toolStrip";
+            this._toolStrip.Size = new System.Drawing.Size(628, 39);
+            this._toolStrip.TabIndex = 2;
+            this._toolStrip.Text = "toolStrip1";
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(38, 36);
+            this.toolStripLabel2.Text = "Mode";
+            // 
+            // _modeComboBox
+            // 
+            this._modeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this._modeComboBox.Items.AddRange(new object[] {
+            "Walk Test",
+            "Edit NavMesh"});
+            this._modeComboBox.Name = "_modeComboBox";
+            this._modeComboBox.Size = new System.Drawing.Size(121, 39);
+            this._modeComboBox.SelectedIndexChanged += new System.EventHandler(this.OnModeChange);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 39);
             // 
             // openFileDialog1
             // 
@@ -220,7 +249,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(628, 484);
             this.Controls.Add(this._openGLControl);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this._toolStrip);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -228,8 +257,8 @@
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this._toolStrip.ResumeLayout(false);
+            this._toolStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,25 +266,28 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
-        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
         private Tao.Platform.Windows.SimpleOpenGlControl _openGLControl;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripButton _defaultToolStripButton;
-        private System.Windows.Forms.ToolStripButton _polygonAddToolStripButton;
+        private System.Windows.Forms.ToolStripButton _addPolygonToolStripButton;
         private System.Windows.Forms.ToolStripButton _linkToolStripButton;
         private System.Windows.Forms.ToolStripButton _addVertexToolStripButton;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip _toolStrip;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
+        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripComboBox _modeComboBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 
     }
 }
