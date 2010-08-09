@@ -69,10 +69,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AStar.cs" />
     <Compile Include="ConvexPolygon.cs" />
     <Compile Include="IndexedEdge.cs" />
+    <Compile Include="IAStarNode.cs" />
     <Compile Include="LineSegment.cs" />
+    <Compile Include="NavigationNode.cs" />
     <Compile Include="NavMesh.cs" />
+    <Compile Include="PathFinder.cs" />
     <Compile Include="PolygonLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WalkablePolygonCodeSketch
 {
-    class AStar<T>
+     class AStar<T>
     {
         List<IPathNode<T>> _openList = new List<IPathNode<T>>();
         List<IPathNode<T>> _closeList = new List<IPathNode<T>>();
