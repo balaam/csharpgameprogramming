@@ -82,7 +82,7 @@ namespace Editor
         private void InitializeGameState()
         {
             _system.AddState("edit_walk_area", new EditWalkArea(_input, _toolStrip, _scene));
-            _system.AddState("test_walking", new TestWalkState(_input, _toolStrip, _scene));
+            _system.AddState("test_walking", new TestWalkState(_input, _toolStrip, _scene, _textureManager));
             _system.ChangeState("edit_walk_area");
         }
 
@@ -96,6 +96,13 @@ namespace Editor
             Ilut.ilutRenderer(Ilut.ILUT_OPENGL);
 
             // Textures are loaded here.
+
+            // The character animations should probably not be hardcoded
+            // but data driven instead.
+            _textureManager.LoadTexture("pc_stand_still", "Art/templateman.png");
+            _textureManager.LoadTexture("pc_walk_front", "Art/templatemanwalkfront.png");
+            _textureManager.LoadTexture("pc_walk_up", "Art/templatemanwalkup.png");
+            _textureManager.LoadTexture("pc_walk_side", "Art/templatemanwalkside.png");
         }
 
         private void UpdateInput(double elapsedTime)
