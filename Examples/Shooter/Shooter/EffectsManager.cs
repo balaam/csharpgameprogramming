@@ -27,7 +27,7 @@ namespace Shooter
 
         public void Update(double elapsedTime)
         {
-            _effects.ForEach(x => x.Process(elapsedTime));
+            _effects.ForEach(x => x.Update(elapsedTime));
             RemoveDeadExplosions();
         }
 

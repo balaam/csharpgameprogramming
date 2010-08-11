@@ -62,7 +62,7 @@ namespace Shooter
                 Bullet bullet = new Bullet(_bulletTexture);
                 Vector currentPosition = _sprite.GetPosition();
                 Vector bulletDir = _playerCharacter.GetPosition() - currentPosition;
-                bulletDir = bulletDir.Normalize(bulletDir);
+                bulletDir = Vector.Normalize(bulletDir);
                 bullet.Direction = bulletDir;
 
              
