@@ -18,8 +18,11 @@ namespace Engine
         double _positionX = 0;
         double _positionY = 0;
 
+        public bool FlipHorizontal { get; set; }
+
         public Sprite()
         {
+            FlipHorizontal = false;
             InitVertexPositions(new Vector(0, 0, 0), 1, 1);
             SetColor(new Color(1, 1, 1, 1));
             SetUVs(new Point(0, 0), new Point(1, 1));
@@ -123,6 +126,13 @@ namespace Engine
 
         public void SetUVs(Point topLeft, Point bottomRight)
         {
+            if (FlipHorizontal)
+            {
+                var left = topLeft.X;
+                topLeft.X = bottomRight.X;
+                bottomRight.X = left;
+            }
+
             // TopLeft, TopRight, BottomLeft
             _vertexUVs[0] = topLeft;
             _vertexUVs[1] = new Point(bottomRight.X, topLeft.Y);
