@@ -14,11 +14,13 @@ namespace Engine
         public double Speed { get; set; } // seconds per frame
         public bool Looping { get; set; }
         public bool Finished { get; set; }
+        public bool Pause { get; set; }
 
         public AnimatedSprite()
         {
             Looping = false;
             Finished = false;
+            Pause = true;
             Speed = 0.03; // 30 fps-ish
             _currentFrameTime = Speed;
         }
@@ -44,6 +46,7 @@ namespace Engine
         {
             _framesX = framesX;
             _framesY = framesY;
+            _currentFrame = 0; // frame no changed so needs reseting.
             UpdateUVs();
         }
 
@@ -58,13 +61,25 @@ namespace Engine
             _currentFrame = (_currentFrame + 1) % numberOfFrames;
         }
 
+        public void SetFrame(int frameIndex)
+        {
+            System.Diagnostics.Debug.Assert(frameIndex < GetFrameCount());
+            _currentFrame = frameIndex;
+            UpdateUVs();
+        }
+
         public int GetCurrentFrame()
         {
             return _currentFrame;
         }
 
-        public void Process(double elapsedTime)
+        public void Update(double elapsedTime)
         {
+            if (Pause)
+            {
+                return;
+            }
+
             if (_currentFrame == GetFrameCount() - 1 && Looping == false)
             {
                 Finished = true;
@@ -79,6 +94,10 @@ namespace Engine
                 UpdateUVs();
             }
         }
+
+
+
+
     }
 
 }

@@ -126,7 +126,7 @@ namespace Engine
             return v1.Subtract(v2);
         }
 
-        public Vector Normalize(Vector v)
+        public static Vector Normalize(Vector v)
         {
             double r = v.Length();
             if (r != 0.0)				// guard against divide by zero
