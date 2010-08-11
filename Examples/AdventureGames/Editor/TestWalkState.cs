@@ -13,27 +13,34 @@ namespace Editor
     class TestWalkState : IGameObject
     {
 
-        Input _input;
-        ToolStrip _toolstrip;
-        Scene _scene;
-        Renderer _renderer = new Renderer();
-        List<Point> _path = new List<Point>();
+        Input       _input;
+        ToolStrip   _toolstrip;
+        Scene       _scene;
+        Renderer    _renderer = new Renderer();
 
-        bool _canWalkMousePosition = false;
-        bool _firstPress = true;
-        Point _pathStart = new Point();
-        PathFinder _pathFinder = new PathFinder();
 
-        public TestWalkState(Input input, ToolStrip toolstrip, Scene scene)
+        bool            _canWalkMousePosition = false;
+        List<Point>     _path = new List<Point>();
+        PathFinder      _pathFinder = new PathFinder();
+
+        TextureManager _textureManager;
+        PlayerCharacter _playerCharacter;
+        Random _random = new Random();
+
+        public TestWalkState(Input input, ToolStrip toolstrip, Scene scene, TextureManager textureManager)
         {
             _input = input;
             _toolstrip = toolstrip;
             _scene = scene;
+            _textureManager = textureManager;
+            _playerCharacter = new PlayerCharacter(_textureManager);
         }
 
         public void Activated()
         {
-       
+            // Put the character in the center of a random polygon.
+            ConvexPolygon randomPoly = _scene.NavMesh.PolygonList[_random.Next(_scene.NavMesh.PolygonList.Count)];
+            _playerCharacter.SetPosition(randomPoly.CalculateCentroid());
         }
 
         public void Update(double elapsedTime)
@@ -41,18 +48,10 @@ namespace Editor
             _canWalkMousePosition = _scene.NavMesh.PolygonList.Any(x => x.Intersects(_input.Mouse.Position));
             if (_input.Mouse.LeftPressed && _canWalkMousePosition)
             {
-                if (_firstPress)
-                {
-                    _firstPress = false;
-                    _pathStart = _input.Mouse.Position;
-                }
-                else
-                {
-                    _path = _pathFinder.GetPath(_pathStart, _input.Mouse.Position, _scene.NavMesh);
-                    _firstPress = true;
 
-                }
+                    _path = _pathFinder.GetPath(_playerCharacter.GetPosition(), _input.Mouse.Position, _scene.NavMesh);
             }
+            _playerCharacter.Update(elapsedTime);
         }
 
         public void Render()
@@ -64,6 +63,17 @@ namespace Editor
             {
                 layer.Render(_renderer);
             }
+
+       
+            if (_playerCharacter.FollowingPath == false && _path.Count != 0)
+            {
+                _playerCharacter.FollowPath(_path);
+            }
+
+
+            _playerCharacter.Render(_renderer);
+      
+
             _renderer.Render();
             Gl.glDisable(Gl.GL_TEXTURE_2D);
 
@@ -74,11 +84,6 @@ namespace Editor
             else
             {
                 GLUtil.DrawFilledCircle(_input.Mouse.Position, 10, new Color(1, 0, 0, 1));
-            }
-
-            if (_firstPress == false)
-            {
-                GLUtil.DrawFilledCircle(_pathStart, 10, new Color(1, 1, 0, 1));
             }
 
             // Draw the basic nav meshes
