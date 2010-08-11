@@ -41,16 +41,21 @@ namespace Editor
             // Put the character in the center of a random polygon.
             ConvexPolygon randomPoly = _scene.NavMesh.PolygonList[_random.Next(_scene.NavMesh.PolygonList.Count)];
             _playerCharacter.SetPosition(randomPoly.CalculateCentroid());
+            _playerCharacter.FaceDown();
         }
 
         public void Update(double elapsedTime)
         {
             _canWalkMousePosition = _scene.NavMesh.PolygonList.Any(x => x.Intersects(_input.Mouse.Position));
-            if (_input.Mouse.LeftPressed && _canWalkMousePosition)
+            if (_input.Mouse.LeftPressed && _canWalkMousePosition && _playerCharacter.FollowingPath == false)
             {
-
-                    _path = _pathFinder.GetPath(_playerCharacter.GetPosition(), _input.Mouse.Position, _scene.NavMesh);
+                 _path = _pathFinder.GetPath(_playerCharacter.GetPosition(), _input.Mouse.Position, _scene.NavMesh);
+                if(_path.Count >= 2)
+                {
+                    _playerCharacter.FollowPath(_path);
+                }
             }
+
             _playerCharacter.Update(elapsedTime);
         }
 
@@ -65,13 +70,9 @@ namespace Editor
             }
 
        
-            if (_playerCharacter.FollowingPath == false && _path.Count != 0)
-            {
-                _playerCharacter.FollowPath(_path);
-            }
+       
 
-
-            _playerCharacter.Render(_renderer);
+        
       
 
             _renderer.Render();
@@ -102,6 +103,11 @@ namespace Editor
             }
             Gl.glEnd();
             Gl.glLineWidth(1);
+
+            Gl.glEnable(Gl.GL_TEXTURE_2D);
+            _playerCharacter.Render(_renderer);
+            _renderer.Render();
+            Gl.glDisable(Gl.GL_TEXTURE_2D);
         }
     }
 }
