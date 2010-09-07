@@ -30,3 +30,20 @@ Once this done you should be ready to develop!
 
 Your  first step should be to dash over to amazon and [http://sourceforge.net/projects/taoframework/ grab a copy of the book] - then you can join in on all the fun :D If you think you've got something cool to add let me know. It would be nice to get rid of the shoddy programmer art :D
 (If you're a reasonably experienced programmer you can probably just grab the source and get the jist of things without the book - not, of course, the recommended method :D)
+
+
+
+
+Edit this:
+
+      public Texture Texture
+        {
+            get { return _texture; }
+            set
+            {
+                _texture = value;
+                // By default the width and height is set
+                // to that of the texture
+                InitVertexPositions(GetCenter(), _texture.Width, _texture.Height);
+            }
+        }
