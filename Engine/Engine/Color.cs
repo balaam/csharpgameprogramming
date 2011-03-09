@@ -22,6 +22,11 @@ namespace Engine
             Blue = b;
             Alpha = a;
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0}, {1}, {2}, {3}", Red, Green, Blue, Alpha);
+        }
     }
 
 }
