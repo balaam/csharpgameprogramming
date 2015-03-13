@@ -1,0 +1,3 @@
+This code is from the book <a href='http://www.amazon.com/dp/1435455568/ref=nosim?tag=dansspiels-21'>C# Game Programming: For Serious Game Development</a>. The game engine is more developed and additional examples games have been added.
+
+Detailed updates can be found at <a href='http://www.amazon.com/dp/1435455568/ref=nosim?tag=dansspiels-21'><a href='http://www.godpatterns.com'>http://www.godpatterns.com</a></a>
